@@ -36,6 +36,16 @@ export default function Leads(props?: LeadsProps) {
     });
   }, []);
 
+  enum NamePrefix {
+    Mr = "Mr",
+    Ms = "Ms",
+    Mrs = "Mrs",
+    Dr = "Dr",
+    Prof = "Prof",
+  }
+
+  type T_NamePrefix = keyof typeof NamePrefix;
+
   const [first_name, setFirstName] = useState("");
   const [last_name, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -43,6 +53,7 @@ export default function Leads(props?: LeadsProps) {
 
   const [full_name, setFullName] = useState("");
   const [status, setStatus] = useState("active");
+  const [name_prefix, setNamePrefix] = useState<T_NamePrefix | undefined>(undefined);
   const [programs, setPrograms] = useState([]);
   const [interestProgram, setSelectedValue] = useState(null);
 
@@ -99,6 +110,8 @@ export default function Leads(props?: LeadsProps) {
       console.error("Error al guardar lead:", error);
     }
   };
+
+  const prefix: T_NamePrefix[] = Object.keys(NamePrefix) as T_NamePrefix[];
 
   return (
     <>
@@ -186,6 +199,25 @@ export default function Leads(props?: LeadsProps) {
             </SelectContent>
           </Select>
         </Label>
+
+        <Label htmlFor='name_prefix'>
+          {"Prefijo"}
+          <Select onValueChange={(value) => setSelectedValue(value)}>
+            <SelectTrigger className='mt-2'>
+              <SelectValue placeholder='Cual es el prefijo del prospecto' />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {prefix.map((prefix) => (
+                  <SelectItem key={prefix} value={prefix}>
+                    {NamePrefix[prefix]}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </Label>
+
         <Label htmlFor='status' className='flex items-center'>
           {"Prospecto activo"}
           <Switch

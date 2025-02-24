@@ -19,6 +19,15 @@ const LeadSchema = new Schema({
   last_name: {type: Schema.Types.String},
   email: {type: Schema.Types.String},
   mobile_phone: {type: Schema.Types.String},
+  name_prefix : {
+    type: Schema.type.String,
+    enum: ['Mr.', 'Ms.', 'Mrs.', 'Dr.', 'Prof.'],
+    default: 'Mr' 
+  },
+  contact_method: {
+    type: Schema.Types.String,
+    enum: ['email', 'phone', 'whatsapp', 'sms', 'website'],
+  },
   interestProgram: {type: Schema.Types.ObjectId, ref: 'Program'},
   status:{
     type: Schema.Types.String,
